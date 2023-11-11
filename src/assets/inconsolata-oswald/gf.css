@@ -1,0 +1,24 @@
+@font-face {
+    font-family: 'Inconsolata';
+    font-style: normal;
+    font-weight: 400;
+    src: url(Inconsolata_400_normal.eot); /* http://fonts.gstatic.com/s/inconsolata/v21/QldgNThLqRwH-OJ1UHjlKENVzkWGVkL3GZQmAwLYxYWI2qfdm7Lpp4U8WR32kw.eot */
+    src: local('☺'),
+        url(Inconsolata_400_normal.eot?#iefix) format('embedded-opentype'), /* http://fonts.gstatic.com/s/inconsolata/v21/QldgNThLqRwH-OJ1UHjlKENVzkWGVkL3GZQmAwLYxYWI2qfdm7Lpp4U8WR32kw.eot */
+        url(Inconsolata_400_normal.woff2) format('woff2'), /* http://fonts.gstatic.com/s/inconsolata/v21/QldgNThLqRwH-OJ1UHjlKENVzkWGVkL3GZQmAwLYxYWI2qfdm7Lpp4U8WR32lw.woff2 */
+        url(Inconsolata_400_normal.woff) format('woff'), /* http://fonts.gstatic.com/s/inconsolata/v21/QldgNThLqRwH-OJ1UHjlKENVzkWGVkL3GZQmAwLYxYWI2qfdm7Lpp4U8WR32kQ.woff */
+        url(Inconsolata_400_normal.ttf) format('truetype'), /* http://fonts.gstatic.com/s/inconsolata/v21/QldgNThLqRwH-OJ1UHjlKENVzkWGVkL3GZQmAwLYxYWI2qfdm7Lpp4U8WR32knWdycu5Dw.ttf */
+        url(Inconsolata_400_normal.svg#Inconsolata_400_normal) format('svg'); /* http://fonts.gstatic.com/l/font?kit=QldgNThLqRwH-OJ1UHjlKENVzkWGVkL3GZQmAwLYxYWI2qfdm7Lpp4U8WR32kA&skey=20fa6569a31c71ee&v=v21#Inconsolata */
+}
+@font-face {
+    font-family: 'Oswald';
+    font-style: normal;
+    font-weight: 400;
+    src: url(Oswald_400_normal.eot); /* http://fonts.gstatic.com/s/oswald/v40/TK3_WkUHHAIjg75cFRf3bXL8LICs1_FvsUZiYQ.eot */
+    src: local('☺'),
+        url(Oswald_400_normal.eot?#iefix) format('embedded-opentype'), /* http://fonts.gstatic.com/s/oswald/v40/TK3_WkUHHAIjg75cFRf3bXL8LICs1_FvsUZiYQ.eot */
+        url(Oswald_400_normal.woff2) format('woff2'), /* http://fonts.gstatic.com/s/oswald/v40/TK3_WkUHHAIjg75cFRf3bXL8LICs1_FvsUZiZQ.woff2 */
+        url(Oswald_400_normal.woff) format('woff'), /* http://fonts.gstatic.com/s/oswald/v40/TK3_WkUHHAIjg75cFRf3bXL8LICs1_FvsUZiYw.woff */
+        url(Oswald_400_normal.ttf) format('truetype'), /* http://fonts.gstatic.com/s/oswald/v40/TK3_WkUHHAIjg75cFRf3bXL8LICs1_FvsUZiYCSUhiCnAw.ttf */
+        url(Oswald_400_normal.svg#Oswald_400_normal) format('svg'); /* http://fonts.gstatic.com/l/font?kit=TK3_WkUHHAIjg75cFRf3bXL8LICs1_FvsUZiYg&skey=653237e53512d0de&v=v40#Oswald */
+}

@@ -1,0 +1,19 @@
+version: '3'
+services:
+  frontend:
+    container_name: frontend
+    image: docker.psi.ch:5000/heidi/frontend:${VERSION}${NODE_ENV}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - NODE_ENV=${NODE_ENV:-production}  
+    restart: always
+    ports:
+      - 5000:5000
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    depends_on:
+      - backend
+    networks:
+      - my-network

@@ -1,0 +1,24 @@
+@font-face {
+    font-family: 'Imprima';
+    font-style: normal;
+    font-weight: 400;
+    src: url(Imprima_400_normal.eot); /* http://fonts.gstatic.com/s/imprima/v11/VEMxRoN7sY3yuy-7yoKNzQ.eot */
+    src: local('☺'),
+        url(Imprima_400_normal.eot?#iefix) format('embedded-opentype'), /* http://fonts.gstatic.com/s/imprima/v11/VEMxRoN7sY3yuy-7yoKNzQ.eot */
+        url(Imprima_400_normal.woff2) format('woff2'), /* http://fonts.gstatic.com/s/imprima/v11/VEMxRoN7sY3yuy-7yoKNyQ.woff2 */
+        url(Imprima_400_normal.woff) format('woff'), /* http://fonts.gstatic.com/s/imprima/v11/VEMxRoN7sY3yuy-7yoKNzw.woff */
+        url(Imprima_400_normal.ttf) format('truetype'), /* http://fonts.gstatic.com/s/imprima/v11/VEMxRoN7sY3yuy-7yoKNzB7npPs.ttf */
+        url(Imprima_400_normal.svg#Imprima_400_normal) format('svg'); /* http://fonts.gstatic.com/l/font?kit=VEMxRoN7sY3yuy-7yoKNzg&skey=29732b71f07bec76&v=v11#Imprima */
+}
+@font-face {
+    font-family: 'Inconsolata';
+    font-style: normal;
+    font-weight: 400;
+    src: url(Inconsolata_400_normal.eot); /* http://fonts.gstatic.com/s/inconsolata/v21/QldgNThLqRwH-OJ1UHjlKENVzkWGVkL3GZQmAwLYxYWI2qfdm7Lpp4U8WR32kw.eot */
+    src: local('☺'),
+        url(Inconsolata_400_normal.eot?#iefix) format('embedded-opentype'), /* http://fonts.gstatic.com/s/inconsolata/v21/QldgNThLqRwH-OJ1UHjlKENVzkWGVkL3GZQmAwLYxYWI2qfdm7Lpp4U8WR32kw.eot */
+        url(Inconsolata_400_normal.woff2) format('woff2'), /* http://fonts.gstatic.com/s/inconsolata/v21/QldgNThLqRwH-OJ1UHjlKENVzkWGVkL3GZQmAwLYxYWI2qfdm7Lpp4U8WR32lw.woff2 */
+        url(Inconsolata_400_normal.woff) format('woff'), /* http://fonts.gstatic.com/s/inconsolata/v21/QldgNThLqRwH-OJ1UHjlKENVzkWGVkL3GZQmAwLYxYWI2qfdm7Lpp4U8WR32kQ.woff */
+        url(Inconsolata_400_normal.ttf) format('truetype'), /* http://fonts.gstatic.com/s/inconsolata/v21/QldgNThLqRwH-OJ1UHjlKENVzkWGVkL3GZQmAwLYxYWI2qfdm7Lpp4U8WR32knWdycu5Dw.ttf */
+        url(Inconsolata_400_normal.svg#Inconsolata_400_normal) format('svg'); /* http://fonts.gstatic.com/l/font?kit=QldgNThLqRwH-OJ1UHjlKENVzkWGVkL3GZQmAwLYxYWI2qfdm7Lpp4U8WR32kA&skey=20fa6569a31c71ee&v=v21#Inconsolata */
+}
