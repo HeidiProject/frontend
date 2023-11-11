@@ -31,7 +31,7 @@
     "workbox-background-sync": "^6.6.0"
   },
   "devDependencies": {
-    "@rushstack/eslint-patch": "^1.1.4",
+    "@rushstack/eslint-patch": "^1.5.1",
     "@vitejs/plugin-vue": "^3.0.3",
     "@vue/eslint-config-prettier": "^7.0.0",
     "@vue/test-utils": "^2.0.2",
