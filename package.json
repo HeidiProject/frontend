@@ -19,7 +19,7 @@
     "aws-sdk": "^2.1473.0",
     "bootstrap": "^5.2.2",
     "chart.js": "^4.4.0",
-    "pinia": "^2.0.21",
+    "pinia": "^2.1.7",
     "register-service-worker": "^1.7.2",
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-pwa": "^0.13.3",
