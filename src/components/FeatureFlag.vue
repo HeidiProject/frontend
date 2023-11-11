@@ -7,7 +7,7 @@ const flags = {
   shippingForm: false,
   processingResults: true,
   tokenManagement: true,
-  vespaProcessingResults: true,
+  vespaProcessingResults: false,
 };
 
 const props = defineProps(["name"]);

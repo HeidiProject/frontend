@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { useAuthStore } from "../stores/authStore";
-import ValidatorView from "../views/ValidatorView.vue";
+import SpreadsheetValidatorView from "../views/SpreadsheetValidatorView.vue";
 import AboutView from "../views/DocsView.vue";
 import LoginView from "../views/LoginView.vue";
 import ExperimentView from "../views/ExperimentView.vue";
@@ -10,7 +10,7 @@ const routes = [
   {
     path: "/",
     name: "validator",
-    component: ValidatorView,
+    component: SpreadsheetValidatorView,
   },
   {
     path: "/tokens",
