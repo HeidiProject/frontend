@@ -43,14 +43,6 @@ const { logout } = auth;
             :to="{ name: 'docs' }"
             >Docs</RouterLink
           >
-          <FeatureFlag name="experimentView">
-            <RouterLink
-              class="nav-item nav-link"
-              v-show="auth.isAuthenticated"
-              :to="{ name: 'experiment' }"
-              >Experiment</RouterLink
-            >
-          </FeatureFlag>
           <FeatureFlag name="processingResults">
             <RouterLink
               class="nav-item nav-link"

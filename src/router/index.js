@@ -3,7 +3,6 @@ import { useAuthStore } from "../stores/authStore";
 import SpreadsheetValidatorView from "../views/SpreadsheetValidatorView.vue";
 import AboutView from "../views/DocsView.vue";
 import LoginView from "../views/LoginView.vue";
-import ExperimentView from "../views/ExperimentView.vue";
 import TokenManagementView from "../views/TokenManagementView.vue";
 
 const routes = [
@@ -26,11 +25,6 @@ const routes = [
     path: "/login",
     name: "login",
     component: LoginView,
-  },
-  {
-    path: "/experiment",
-    name: "experiment",
-    component: ExperimentView,
   },
   {
     path: "/processing",
