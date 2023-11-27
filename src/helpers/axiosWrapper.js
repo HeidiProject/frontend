@@ -10,20 +10,12 @@ const apiClient = axios.create({
 });
 
 export default {
-  login(username, password) {
-    return apiClient.post("token/login", {
-      username: username,
-      password: password,
-    });
-  },
-
-  logout() {
-    return apiClient.post("token/logout");
+  login() {
+    return axios.get(baseUrl + "/token/login");
   },
 
   validate_login() {
     return apiClient.get("api/protected");
-    // return apiClient.get("/protected", {headers: {Authorization: 'Bearer ' + token}}); //example JWT only
   },
 
   async validate_spreadsheet(file_data) {

@@ -1,6 +1,26 @@
 <script setup>
 import { RouterView } from "vue-router";
 import NavBar from "./components/NavBar.vue";
+import { useAuthStore } from "./stores/authStore";
+import { ref, onMounted } from "vue";
+
+const store = useAuthStore();
+
+const { login } = store;
+
+const login_msg = ref("");
+
+function authenticateUser() {
+  login().then((response) => {
+    if (!response) {
+      login_msg.value = "User not authorized. Please try again.";
+    }
+  });
+}
+
+onMounted(() => {
+  authenticateUser();
+})
 </script>
 
 <template>

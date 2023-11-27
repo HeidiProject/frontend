@@ -69,20 +69,7 @@ const { logout } = auth;
             >
           </FeatureFlag>
         </div>
-
-        <RouterLink
-          class="nav-item nav-link"
-          v-show="!auth.isAuthenticated"
-          to="/"
-          >Login</RouterLink
-        >
-        <RouterLink
-          class="nav-item nav-link"
-          v-show="auth.isAuthenticated"
-          @mouseup="logout"
-          to="/"
-          >Logout</RouterLink
-        >
+        <a class="nav-item nav-link" @mouseup="logout" href="/vdesk/hangup.php3">Logout</a>
       </div>
     </div>
   </nav>
@@ -92,10 +79,6 @@ const { logout } = auth;
 img {
   width: 50%;
   height: 50%;
-}
-
-div.test {
-  width: 100px;
 }
 
 a.navbar-brand {

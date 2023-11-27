@@ -10,12 +10,8 @@ const user = ref("");
 const password = ref("");
 const login_msg = ref("");
 
-function authenticateUser(user, password) {
-  if (user.length === 0 || password.length === 0) {
-    login_msg.value = "You need to provide a username and password.";
-    return login_msg;
-  }
-  login(user, password).then((response) => {
+function authenticateUser() {
+  login().then((response) => {
     if (!response) {
       login_msg.value = "Incorrect username or password. Please try again.";
     }
@@ -25,19 +21,7 @@ function authenticateUser(user, password) {
 
 <template>
   <div class="loginCard">
-    <form @submit.prevent="authenticateUser(user, password)">
-      <input
-        v-model="user"
-        type="text"
-        autocomplete="username"
-        placeholder="EXT account"
-      />
-      <input
-        v-model="password"
-        type="password"
-        autocomplete="current-password"
-        placeholder="Password"
-      />
+    <form @submit.prevent="authenticateUser()">
       <button>Login</button>
     </form>
   </div>

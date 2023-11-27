@@ -11,7 +11,7 @@ import LoginForm from "../components/LoginForm.vue";
       height="200"
       width="200"
     />
-    <LoginForm />
+    <!-- <LoginForm /> -->
   </main>
 </template>
 

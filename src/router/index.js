@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from "vue-router";
 import { useAuthStore } from "../stores/authStore";
 import SpreadsheetValidatorView from "../views/SpreadsheetValidatorView.vue";
 import AboutView from "../views/DocsView.vue";
-import LoginView from "../views/LoginView.vue";
 import TokenManagementView from "../views/TokenManagementView.vue";
 
 const routes = [
@@ -20,11 +19,6 @@ const routes = [
     path: "/docs",
     name: "docs",
     component: AboutView,
-  },
-  {
-    path: "/login",
-    name: "login",
-    component: LoginView,
   },
   {
     path: "/processing",
@@ -54,13 +48,13 @@ const router = createRouter({
 
 router.beforeEach(async (to) => {
   // redirect to login page if not logged in and trying to access a restricted page
-  const publicPages = ["/login"];
+  const publicPages = ["/","/docs"];
   const authRequired = !publicPages.includes(to.path);
   const auth = useAuthStore();
 
   if (authRequired && !auth.isAuthenticated) {
     auth.returnUrl = to.fullPath;
-    return "/login";
+    return "/";
   }
 });
 

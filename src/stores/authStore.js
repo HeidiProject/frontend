@@ -16,9 +16,9 @@ export const useAuthStore = defineStore("auth", {
   }),
   // actions
   actions: {
-    async login(username, password) {
+    async login() {
       try {
-        const user = await axiosWrapper.login(username, password);
+        const user = await axiosWrapper.login();
         if (user.data.login === true) {
           // update pinia state
           this.user = user.data;
@@ -27,10 +27,7 @@ export const useAuthStore = defineStore("auth", {
           this.user.selectedId = user.data.uuid[0].uuid;
           // store user details and jwt in local storage to keep user logged in between page refreshes
           sessionStorage.setItem("user", JSON.stringify(user.data));
-          // store authentication flag in session storage to keep user logged in between page refreshes
-          // but revoke authentication when the browser is closed
-          sessionStorage.setItem("isAuthenticated", true);
-
+          sessionStorage.setItem("isAuthenticated", JSON.stringify(user.isAuthenticated));
           if (this.returnUrl === "/Login") {
             // redirect to home page
             router.push("/");
@@ -46,14 +43,11 @@ export const useAuthStore = defineStore("auth", {
     },
     async logout() {
       const { clearSpreadsheetData } = useSpreadsheetStore();
-      await axiosWrapper.logout();
       this.user = null;
       this.isAuthenticated = null;
       sessionStorage.removeItem("user");
       sessionStorage.clear();
       clearSpreadsheetData();
-      // redirect to home page
-      router.push("/login");
     },
     selectAccount(value) {
       if (value !== null) {
