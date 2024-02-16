@@ -5,7 +5,7 @@ import FileDownload from "./FileDownload.vue";
 <template>
   <div>
     Latest Spreadsheet Template Version 6 <br />
-    Last updated: 16.02.2021
+    Last updated: 01.09.2023
     <FileDownload
       fileName="V6_TELLSamplesSpreadsheetTemplate.xlsx"
       fileClass="xls-icon"

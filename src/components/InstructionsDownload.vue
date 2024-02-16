@@ -5,7 +5,7 @@ import FileDownload from "./FileDownload.vue";
 <template>
   <div>
     Latest Spreadsheet Instructions Version 2.3 <br />
-    Last updated: 16.02.2021
+    Last updated: 01.09.2023
     <FileDownload
       fileName="TELL_Sample_Spreadsheet_User_Instructions.pdf"
       fileClass="pdf-icon"
