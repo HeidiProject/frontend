@@ -25,7 +25,7 @@ export default {
     };
   },
   async mounted() {
-    this.userAccount = "e" + userSelectAccount;
+    this.userAccount = userSelectAccount;
     for (let i = 0; i < uuidList.length; i++) {
       if (this.userAccount === uuidList[i]._id) {
         this.uuid = uuidList[i].uuid;
@@ -150,7 +150,7 @@ methods: {
     </n-grid-item>
     <n-grid-item>
       <n-card class="info-panel">
-        Processing results for e-account:
+        Processing results for pgroup:
         <SelectAccountDropdown @selected-account="handleAccount" />
       </n-card>
     </n-grid-item>
@@ -166,19 +166,19 @@ methods: {
                 {{ result.createdOn.slice(11, 16) }}
                 <br />
                 Data File: &nbsp
-                {{ result.dataFileName }}
+                {{ result.filename }}
                 <br />
                 MergeID: &nbsp
-                {{ result.mergeID }}
+                {{ result.user_data.runID }}
             </n-card>
           </n-grid-item>
           <n-grid-item>
             <n-card class="light-blue">
               Crystfel Parameters: &nbsp
               <br />
-              SNR: {{ result.crystfelMinSNR }}, TRSH: {{ result.crystfelTreshold }}
+              SNR: {{ result.user_data.crystfelMinSNR }}, TRSH: {{ result.user_data.crystfelTreshold }}
               <br />
-              MinPixCount: {{ result.crystfelMinPixCount }}
+              MinPixCount: {{ result.user_data.crystfelMinPixCount }}
             </n-card>
           </n-grid-item>
           <n-grid-item>
