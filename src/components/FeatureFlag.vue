@@ -8,6 +8,8 @@ const flags = {
   processingResults: true,
   tokenManagement: true,
   vespaProcessingResults: true,
+  summaryProcessingResults: true,
+  fastFragmentCompoundScreening: true,
 };
 
 const props = defineProps(["name"]);

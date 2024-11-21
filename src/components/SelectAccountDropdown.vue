@@ -21,8 +21,8 @@ function convertAccountsToOptions() {
   var stackLength = stack.length - 1;
   var out = [];
   for (var i = 0; i <= stackLength; i++) {
-    var label = "e" + stack[i];
-    var value = "e" + stack[i];
+    var label = "p" + stack[i];
+    var value = "p" + stack[i];
     var tmp = { label: label, value: value };
     out.push(tmp);
   }

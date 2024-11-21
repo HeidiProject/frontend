@@ -38,6 +38,18 @@ const routes = [
     props: true,
     component: () => import("../views/VespaProcessingView.vue"),
   },
+  {
+    path: "/summary",
+    name: "summary-processing",
+    props: true,
+    component: () => import("../views/SummaryView.vue"),
+  },
+  {
+    path: "/ffcs",
+    name: "ffcs",
+    props: true,
+    component: () => import("../views/FFCSView.vue"),
+  },
 ];
 
 const router = createRouter({

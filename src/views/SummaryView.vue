@@ -20,6 +20,7 @@ export default {
       userAccount: "",
       uuid: "",
       data: [],
+      summaryData: [],
       messages: [],
       columns: ['Run Number','Acquisitions']
       // columns: ['Date & Time','Run Number','Filename','Unit Cell Indexing Mean','Total images','Indexed images','% indexed','Progress']
@@ -32,8 +33,8 @@ export default {
         this.uuid = uuidList[i].uuid;
       }
     }
-    await store.getVespaData(this.userAccount);
-    this.data = store.data;
+    await store.getSummaryData(this.userAccount);
+    this.summaryData = store.summaryData;
 
     // Streaming for VESPA with SSEs, remove the "p"
     const url = baseUrl + "/api/streaming?userAccount=e" +
@@ -73,24 +74,28 @@ export default {
       });
   },
 methods: {
+  getColor(percentage) {
+      // Return "info" for blue and "success" for green
+      return percentage > 100 ? "green" : "blue";
+  },
   handleMessage(message) {
-      this.data.unshift(message);
+      this.summaryData.unshift(message);
   },
   async handleAccount(selectedAccount) {
     this.userAccount = selectedAccount;
     for (let i = 0; i < uuidList.length; i++) {
-      if ("e"+selectedAccount.slice(1) === uuidList[i]._id) {
+      if (selectedAccount === uuidList[i]._id) {
         this.uuid = uuidList[i].uuid;
       }
     }
-    await store.getVespaData(this.userAccount)
-    this.data = store.data;
-    if (!this.data) {
-      this.data = [];
+    await store.getSummaryData(this.userAccount)
+    this.summaryData = store.data;
+    if (!this.summaryData) {
+      this.summaryData = [];
     }
-    console.log("end of assigning this.data in vespa view:" + this.data)
+    console.log("end of assigning this.summaryData in vespa view:" + this.summaryData)
 
-    // Streaming for VESPA with SSEs
+    // Streaming for VESPA with SSEs, remove the "p"
     const url = baseUrl + "/api/streaming?userAccount=e" +
       this.userAccount.slice(1) +
       "&uuid=" +
@@ -130,7 +135,6 @@ methods: {
     }
   },
   components: {
-    //VespaPerFrameGraph,
     SelectAccountDropdown,
     NCard,
     NButton,
@@ -158,7 +162,7 @@ methods: {
       </n-card>
     </n-grid-item>
   </n-grid>
-  <div class="navigation-pane" v-if="data && data.length > 0">
+  <div class="navigation-pane" v-if="summaryData && summaryData.length > 0">
     <div class="tab-pane" id="VESPA" role="tabpanel" aria-labelledby="vespa-tab">
       <div v-if="data">
         <n-data-table
@@ -166,10 +170,9 @@ methods: {
             :data="data"
             default-expand-all
           />
-        <table v-if="data" class="result-table table-bordered">
+        <table v-if="summaryData" class="result-table table-bordered">
           <thead>
             <tr>
-              <th>Run Number</th>
               <th>User Tag</th>
               <th>Triggered</th>
               <th>Protein</th>
@@ -184,35 +187,24 @@ methods: {
               <th>Diffraction Resolution on</th>
               <th># Reflections off</th>
               <th># Reflections on</th>
-              <!-- <th>Progress</th> -->
+              <th>Progress off</th>
+              <th>Progress on</th>
             </tr>
           </thead>
           <tbody>
-            <tr class="rows" v-for="result in data" :key="result.run_number">
-              <td> {{ result.run_number }} </td>
-
-              <!-- Ensure trigger_status.off exists before accessing its properties -->
-              <td v-if="result.trigger_status && result.trigger_status.off && result.trigger_status.off._id.user_tag">
-                {{ result.trigger_status.off._id.user_tag }}
-              </td>
-              <td v-else-if="result.trigger_status && result.trigger_status.on && result.trigger_status.on._id.user_tag">
-                {{ result.trigger_status.on._id.user_tag }}
+            <tr class="rows" v-for="result in summaryData" :key="result.user_tag">
+              <td v-if="result.user_tag">
+                {{ result.user_tag }}
               </td>
               <td v-else> - </td>
 
-              <td v-if="result.trigger_status && result.trigger_status.off && result.trigger_status.off._id"> 
+              <td v-if="result.trigger_status && result.trigger_status.off"> 
                 {{ result.trigger_status.off._id.trigger_flag }} 
               </td>
-              <td v-else-if="result.trigger_status && result.trigger_status.on && result.trigger_status.on._id"> 
-                {{ result.trigger_status.on._id.trigger_flag }} 
-              </td>
               <td v-else> - </td>
 
-              <td v-if="result.trigger_status && result.trigger_status.off && result.trigger_status.off._id.sample_name">
+              <td v-if="result.trigger_status && result.trigger_status.off">
                 {{ result.trigger_status.off._id.sample_name }}
-              </td>
-              <td v-else-if="result.trigger_status && result.trigger_status.on && result.trigger_status.on._id.sample_name">
-                {{ result.trigger_status.on._id.sample_name }}
               </td>
               <td v-else> - </td>
 
@@ -223,10 +215,6 @@ methods: {
               <!-- If only off trigger status exists -->
               <td v-else-if="result.trigger_status && result.trigger_status.off && !(result.trigger_status.on)">
                 {{ result.trigger_status.off.acquisitions.length }}
-              </td>
-              <!-- If only on trigger status exists -->
-              <td v-else-if="result.trigger_status && result.trigger_status.on && !(result.trigger_status.off)">
-                {{ result.trigger_status.on.acquisitions.length }}
               </td>
               <td v-else> - </td>
 
@@ -281,7 +269,22 @@ methods: {
                 {{ result.trigger_status.on.total_reflections.toFixed(2) }}
               </td>
               <td v-else> - </td>
-
+              <td>
+                <n-progress v-if="result.trigger_status && result.trigger_status.off"
+                type="line"
+                :color="getColor(((result.trigger_status.off.indexed_images / 50000) * 100).toFixed(0))"
+                :percentage="((result.trigger_status.off.indexed_images / 50000) * 100).toFixed(0)"
+                indicator-placement="outside"
+                /> 
+              </td>
+              <td>
+                <n-progress v-if="result.trigger_status && result.trigger_status.on"
+                type="line"
+                :color="getColor(((result.trigger_status.on.indexed_images / 50000) * 100).toFixed(0))"
+                :percentage="((result.trigger_status.on.indexed_images / 50000) * 100).toFixed(0)"
+                indicator-placement="outside"
+                /> 
+              </td>
             </tr>
           </tbody>
         </table>

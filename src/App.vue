@@ -33,7 +33,7 @@ onMounted(() => {
 <style>
 * {
   margin: 0;
-  padding: 0;
+  padding: 0;p
 }
 
 #app {

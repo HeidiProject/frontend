@@ -74,11 +74,19 @@ export default {
       after: dateRange[0],
       before: dateRange[1],
     });
-    // console.log(eaccount);
-    // return axios.get("http://localhost:3000/documents");
   },
   get_vespa_processing_results(eaccount) {
     return apiClient.post("/api/vespa", {
+      user_account: eaccount,
+    });
+  },
+  get_summary_processing_results(experiment_group) {
+    return apiClient.post("/api/summary", {
+      user_account: experiment_group,
+    });
+  },
+  get_summary_ffcs_results(eaccount) {
+    return apiClient.post("/api/ffcs", {
       user_account: eaccount,
     });
   },
