@@ -3,6 +3,7 @@ import { NCard, NButton, NGrid, NGridItem, NDivider, NProgress, NDataTable } fro
 import { useAuthStore } from "../stores/authStore";
 import { useVespaProcessingStore } from "../stores/vespaProcessingStore";
 import SelectAccountDropdown from "../components/SelectAccountDropdown.vue";
+import { resultIsComplete } from "../helpers/mxdbScripts";
 
 // We store the reference to the SSE client out here
 // so we can access it from other methods
@@ -170,118 +171,40 @@ methods: {
           <thead>
             <tr>
               <th>Run Number</th>
+              <th>Acquisition Number</th>
               <th>User Tag</th>
               <th>Triggered</th>
               <th>Protein</th>
-              <th>Acquisitions</th>
-              <th># images off</th>
-              <th># images on</th>
-              <th># indexed off</th>
-              <th># indexed on</th>
-              <th>% indexed off</th>
-              <th>% indexed on</th>
-              <th>Diffraction Resolution off</th>
-              <th>Diffraction Resolution on</th>
-              <th># Reflections off</th>
-              <th># Reflections on</th>
-              <!-- <th>Progress</th> -->
+              <th># images </th>
+              <th># indexed </th>
+              <th>% indexed </th>
+              <th>Diffraction Resolution </th>
+              <th># Reflections</th>
             </tr>
           </thead>
           <tbody>
-            <tr class="rows" v-for="result in data" :key="result.run_number">
+            <tr class="rows" v-for="result in data" :key="result._id">
               <td> {{ result.run_number }} </td>
+              
+              <td> {{ result.file_number }} </td>
 
-              <!-- Ensure trigger_status.off exists before accessing its properties -->
-              <td v-if="result.trigger_status && result.trigger_status.off && result.trigger_status.off._id.user_tag">
-                {{ result.trigger_status.off._id.user_tag }}
-              </td>
-              <td v-else-if="result.trigger_status && result.trigger_status.on && result.trigger_status.on._id.user_tag">
-                {{ result.trigger_status.on._id.user_tag }}
-              </td>
+              <td> {{ result.user_tag }} </td>
+
+              <td> {{ result.trigger_status }}</td>
+
+              <td> {{ result.sample_name }}</td>
+           
+              <td> {{ result.numberOfImages }} </td>
+
+              <td> {{ result.numberOfImagesIndexed }} </td>
+
+              <td> {{ (100 / result.numberOfImages * result.numberOfImagesIndexed).toFixed(2) }} %</td>
+
+              <td v-if="result.resolutionLimitMean"> {{ result.resolutionLimitMean.toFixed(2) }} </td>
               <td v-else> - </td>
 
-              <td v-if="result.trigger_status && result.trigger_status.off && result.trigger_status.off._id"> 
-                {{ result.trigger_status.off._id.trigger_flag }} 
-              </td>
-              <td v-else-if="result.trigger_status && result.trigger_status.on && result.trigger_status.on._id"> 
-                {{ result.trigger_status.on._id.trigger_flag }} 
-              </td>
+              <td v-if="result.numberReflectionsMean"> {{ result.numberReflectionsMean.toFixed(2) }} </td>
               <td v-else> - </td>
-
-              <td v-if="result.trigger_status && result.trigger_status.off && result.trigger_status.off._id.sample_name">
-                {{ result.trigger_status.off._id.sample_name }}
-              </td>
-              <td v-else-if="result.trigger_status && result.trigger_status.on && result.trigger_status.on._id.sample_name">
-                {{ result.trigger_status.on._id.sample_name }}
-              </td>
-              <td v-else> - </td>
-
-              <!-- Ensure both on and off trigger statuses exist before accessing their properties -->
-              <td v-if="result.trigger_status && result.trigger_status.on && result.trigger_status.off">
-                {{ result.trigger_status.on.acquisitions.length + result.trigger_status.off.acquisitions.length }}
-              </td>
-              <!-- If only off trigger status exists -->
-              <td v-else-if="result.trigger_status && result.trigger_status.off && !(result.trigger_status.on)">
-                {{ result.trigger_status.off.acquisitions.length }}
-              </td>
-              <!-- If only on trigger status exists -->
-              <td v-else-if="result.trigger_status && result.trigger_status.on && !(result.trigger_status.off)">
-                {{ result.trigger_status.on.acquisitions.length }}
-              </td>
-              <td v-else> - </td>
-
-              <td v-if="result.trigger_status && result.trigger_status.off">
-                {{ result.trigger_status.off.total_images }}
-              </td>
-              <td v-else> - </td>
-
-              <td v-if="result.trigger_status && result.trigger_status.on">
-                {{ result.trigger_status.on.total_images }}
-              </td>
-              <td v-else> - </td>
-
-              <td v-if="result.trigger_status && result.trigger_status.off">
-                {{ result.trigger_status.off.indexed_images }}
-              </td>
-              <td v-else> - </td>
-
-              <td v-if="result.trigger_status && result.trigger_status.on">
-                {{ result.trigger_status.on.indexed_images }}
-              </td>
-              <td v-else> - </td>
-
-              <td v-if="result.trigger_status && result.trigger_status.off">
-                {{ (100 / result.trigger_status.off.total_images * result.trigger_status.off.indexed_images).toFixed(2) }} %
-              </td>
-              <td v-else> - </td>
-
-              <td v-if="result.trigger_status && result.trigger_status.on">
-                {{ (100 / result.trigger_status.on.total_images * result.trigger_status.on.indexed_images).toFixed(2) }} %
-              </td>
-              <td v-else> - </td>
-
-              <!-- Check if diffraction_resolution is not null for both trigger_status.on and trigger_status.off -->
-              <td v-if="result.trigger_status && result.trigger_status.off && result.trigger_status.off.diffraction_resolution !== null">
-                {{ result.trigger_status.off.diffraction_resolution.toFixed(2) }}
-              </td>
-              <td v-else> - </td>
-
-              <td v-if="result.trigger_status && result.trigger_status.on && result.trigger_status.on.diffraction_resolution !== null">
-                {{ result.trigger_status.on.diffraction_resolution.toFixed(2) }}
-              </td>
-              <td v-else> - </td>
-
-              <!-- Check if total_reflections is not null for both trigger_status.on and trigger_status.off -->
-              <td v-if="result.trigger_status && result.trigger_status.off && result.trigger_status.off.total_reflections !== null">
-                {{ result.trigger_status.off.total_reflections.toFixed(2) }}
-              </td>
-              <td v-else> - </td>
-
-              <td v-if="result.trigger_status && result.trigger_status.on && result.trigger_status.on.total_reflections !== null">
-                {{ result.trigger_status.on.total_reflections.toFixed(2) }}
-              </td>
-              <td v-else> - </td>
-
             </tr>
           </tbody>
         </table>

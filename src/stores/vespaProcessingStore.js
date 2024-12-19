@@ -33,30 +33,32 @@ export const useVespaProcessingStore = defineStore("vespaProcessingStore", {
       console.log("experiment_group is: " + eaccount)
       try {
         const response = await axiosWrapper.get_vespa_processing_results(eaccount);
-        const rawData = response.data;
+        this.data = response.data;
+        // Below commented out is for merging runID on and off documents together 
+        // const rawData = response.data;
         
-        // Transform the data to merge by run_number
-        const mergedData = rawData.reduce((acc, item) => {
-          const runNumber = item._id.run_number;
+        // // Transform the data to merge by run_number
+        // const mergedData = rawData.reduce((acc, item) => {
+        //   const runNumber = item._id.run_number;
 
-          // Find or create the entry for the current run_number
-          let existing = acc.find((doc) => doc.run_number === runNumber);
-          if (!existing) {
-            existing = { run_number: runNumber, trigger_status: {} };
-            acc.push(existing);
-          }
+        //   // Find or create the entry for the current run_number
+        //   let existing = acc.find((doc) => doc.run_number === runNumber);
+        //   if (!existing) {
+        //     existing = { run_number: runNumber, trigger_status: {} };
+        //     acc.push(existing);
+        //   }
 
-          // Assign data for each trigger_status
-          existing.trigger_status[item._id.trigger_status] = {
-            ...item,
-            trigger_status: item._id.trigger_status // Include trigger_status explicitly
-          };
+        //   // Assign data for each trigger_status
+        //   existing.trigger_status[item._id.trigger_status] = {
+        //     ...item,
+        //     trigger_status: item._id.trigger_status // Include trigger_status explicitly
+        //   };
 
-          return acc;
-        }, []);
+        //   return acc;
+        // }, []);
 
-        // Update store data with merged structure
-        this.data = mergedData;
+        // // Update store data with merged structure
+        // this.data = mergedData;
         console.log("this.data in store is: " + this.data);
         this.data.forEach(item => {
           console.log(item);
@@ -115,6 +117,7 @@ export const useVespaProcessingStore = defineStore("vespaProcessingStore", {
       }
     },
     async clearData() {
+      this.data = [];
       this.summaryData = [];
       this.getDataMsg = "";
     },

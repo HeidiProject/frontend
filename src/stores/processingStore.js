@@ -46,6 +46,7 @@ export const useProcessingStore = defineStore("processingStore", {
   actions: {
     async getData(eaccount, dateRange) {
       try {
+        eaccount = "e" + eaccount.slice(1)
         const response = await axiosWrapper.get_processing_results(
           eaccount,
           dateRange

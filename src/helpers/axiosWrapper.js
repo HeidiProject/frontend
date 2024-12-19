@@ -85,9 +85,10 @@ export default {
       user_account: experiment_group,
     });
   },
-  get_summary_ffcs_results(eaccount) {
-    return apiClient.post("/api/ffcs", {
-      user_account: eaccount,
+  get_summary_ffcs_results(user_account, campaign_id) {
+    return apiClient.post("/api/campaign", {
+      user_account: user_account,
+      campaign_id: campaign_id,
     });
   },
   get_pgroup_tokens(pgroup) {

@@ -8,7 +8,7 @@ const props = defineProps({
   },
 });
 
-const baseUrl = "https://heidi.psi.ch/auth/api/image/";
+const baseUrl = "https://heidi-test.psi.ch/auth/api/image/";
 const location = ref(baseUrl + props._id);
 
 watch(

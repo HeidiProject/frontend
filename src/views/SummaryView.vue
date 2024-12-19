@@ -27,9 +27,13 @@ export default {
     };
   },
   async mounted() {
-    this.userAccount = "p" + userSelectAccount;
+    if (userSelectAccount.length === 5) {
+      this.userAccount = "p" + userSelectAccount;
+    } else {
+      this.userAccount = userSelectAccount;
+    }
     for (let i = 0; i < uuidList.length; i++) {
-      if ("e"+userSelectAccount === uuidList[i]._id) {
+      if ("e"+this.userAccount.slice(1) === uuidList[i]._id) {
         this.uuid = uuidList[i].uuid;
       }
     }
