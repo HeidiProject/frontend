@@ -93,7 +93,7 @@ methods: {
       }
     }
     await store.getSummaryData(this.userAccount)
-    this.summaryData = store.data;
+    this.summaryData = store.summaryData;
     if (!this.summaryData) {
       this.summaryData = [];
     }
