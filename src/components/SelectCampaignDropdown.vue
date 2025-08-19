@@ -13,6 +13,12 @@ import { NSelect } from "naive-ui";
 import { ref } from "vue";
 
 const campaigns = [
+        "20230131_test",
+        "20231213_test",
+        "MK_test",
+        "batch1_test",
+        "new_ffcs_2",
+        "software_test",
       ]
 
 
