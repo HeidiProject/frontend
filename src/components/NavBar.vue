@@ -48,7 +48,7 @@ const { logout } = auth;
               class="nav-item nav-link"
               v-show="auth.isAuthenticated"
               :to="{ name: 'data-processing' }"
-              >Data Processing</RouterLink
+              >SLS Processing</RouterLink
             >
           </FeatureFlag>
           <FeatureFlag name="vespaProcessingResults">
@@ -56,7 +56,23 @@ const { logout } = auth;
               class="nav-item nav-link"
               v-show="auth.isAuthenticated"
               :to="{ name: 'vespa-processing' }"
-              >VESPA</RouterLink
+              >SFX Processing</RouterLink
+            >
+          </FeatureFlag>
+          <FeatureFlag name="summaryProcessingResults">
+            <RouterLink
+              class="nav-item nav-link"
+              v-show="auth.isAuthenticated"
+              :to="{ name: 'summary-processing' }"
+              >SFX Summary</RouterLink
+            >
+          </FeatureFlag>
+          <FeatureFlag name="fastFragmentCompoundScreening">
+            <RouterLink
+              class="nav-item nav-link"
+              v-show="auth.isAuthenticated"
+              :to="{ name: 'ffcs' }"
+              >FFCS</RouterLink
             >
           </FeatureFlag>
           <FeatureFlag name="arrivalPanelView">Arrivals Panel</FeatureFlag>

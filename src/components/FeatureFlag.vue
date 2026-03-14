@@ -7,7 +7,9 @@ const flags = {
   shippingForm: false,
   processingResults: true,
   tokenManagement: true,
-  vespaProcessingResults: false,
+  vespaProcessingResults: true,
+  summaryProcessingResults: true,
+  fastFragmentCompoundScreening: true,
 };
 
 const props = defineProps(["name"]);

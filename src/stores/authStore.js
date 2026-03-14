@@ -54,6 +54,11 @@ export const useAuthStore = defineStore("auth", {
         this.user.selectedAccount = value;
       }
     },
+    selectCampaign(value) {
+      if (value !== null) {
+        this.user.selectedCampaign = value;
+      }
+    },
   },
   // getters
   getters: {
@@ -68,6 +73,14 @@ export const useAuthStore = defineStore("auth", {
           this.user.selectedAccount = state.user.uids[0];
         }
         return state.user.selectedAccount;
+      }
+    },
+    userSelectCampaign(state) {
+      if (state.user) {
+        if (state.user.selectedCampaign === null) {
+          this.user.selectedAccount = state.user.campaigns[0];
+        }
+        return state.user.selectedCampaign;
       }
     },
     uuidList(state) {

@@ -13,10 +13,10 @@ RUN npm install
 # Copy the rest of the application files to the container
 COPY . .
 
-# Use NODE_ENV as a build argument and default to 'production'
-ARG NODE_ENV
+# Use SERVER as a build argument and default to 'heidi' other options 'heidi-test' or 'heidi-sfx'
+ARG SERVER
 
-RUN cp env/.env.${NODE_ENV} .env
+RUN cp env/.env.${SERVER} .env
 
 # Build the Vue.js application for production
 RUN npm run build
