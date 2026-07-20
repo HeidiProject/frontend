@@ -16,6 +16,8 @@ const campaigns = [
         "20230131_test",
         "20231213_test",
         "MK_test",
+	"EP_cs_01",
+	"EP_cs_02",
         "batch1_test",
         "new_ffcs_2",
         "software_test",
