@@ -6,9 +6,15 @@ import SelectCampaignDropdown from "../components/SelectCampaignDropdown.vue";
 import { useFFCSStore } from "../stores/ffcsStore";
 
 const auth = useAuthStore();
-const { uuidList, userSelectAccount } = auth;
 
 const store = useFFCSStore();
+
+function normalizePgroup(account) {
+  const value = String(account || "");
+  if (value.startsWith("p")) return value;
+  if (value.startsWith("e")) return "p" + value.slice(1);
+  return "p" + value;
+}
 
 export default {
   data() {
@@ -17,35 +23,52 @@ export default {
       userCampaign: "",
       uuid: "",
       ffcs_data: [],
+      campaigns: [],
+      campaignsLoading: false,
+      campaignError: "",
       messages: [],
       columns: ['Run Number','Acquisitions']
     };
   },
   async mounted() {
-    this.userAccount = "e" + userSelectAccount;
-    this.userCampaign = "bach1_sccr_01";
-    await store.getFFCSData(this.userAccount,this.userCampaign);
-    this.ffcs_data = store.ffcs_data;
-    console.log("this.userAccount: " + this.userAccount + " this.userCampaign: " + this.userCampaign)
+    this.userAccount = normalizePgroup(auth.userSelectAccount);
+    await this.loadCampaigns();
   },
   methods: {
-    async handleAccount(selectedAccount) {
-      this.userAccount = selectedAccount;
-      await store.getFFCSData(this.userAccount,this.userCampaign)
-      this.ffcs_data = store.ffcs_data;
-      if (!this.ffcs_data) {
-        this.ffcs_data = [];
+    async loadCampaigns() {
+      this.campaignsLoading = true;
+      this.userCampaign = "";
+      this.campaigns = [];
+      this.ffcs_data = [];
+      this.campaignError = "";
+
+      try {
+        await store.getCampaigns(this.userAccount);
+        this.campaigns = store.campaigns;
+        this.campaignError = store.getDataMsg;
+        if (this.campaigns.length > 0) {
+          this.userCampaign = this.campaigns[0].campaign_id;
+          await this.loadCampaignData();
+        }
+      } finally {
+        this.campaignsLoading = false;
       }
-      console.log("end of assigning this.ffcs_data in ffcs view:" + this.ffcs_data)
+    },
+    async loadCampaignData() {
+      if (!this.userCampaign) {
+        this.ffcs_data = [];
+        return;
+      }
+      await store.getFFCSData(this.userAccount, this.userCampaign);
+      this.ffcs_data = store.ffcs_data;
+    },
+    async handleAccount(selectedAccount) {
+      this.userAccount = normalizePgroup(selectedAccount);
+      await this.loadCampaigns();
     },
     async handleCampaign(selectedCampaign) {
       this.userCampaign = selectedCampaign;
-      await store.getFFCSData(this.userAccount,this.userCampaign)
-      this.ffcs_data = store.ffcs_data;
-      if (!this.ffcs_data) {
-        this.ffcs_data = [];
-      }
-      console.log("end of assigning this.ffcs_data in ffcs view:" + this.ffcs_data)
+      await this.loadCampaignData();
     },
   },
     components: {
@@ -79,7 +102,13 @@ export default {
     <n-grid-item>
       <n-card class="info-panel">
         Select Campaign:
-        <SelectCampaignDropdown @selected-campaign="handleCampaign" />
+        <SelectCampaignDropdown
+          :campaigns="campaigns"
+          :model-value="userCampaign"
+          :loading="campaignsLoading"
+          @selected-campaign="handleCampaign"
+        />
+        <p v-if="campaignError" class="error-message">{{ campaignError }}</p>
       </n-card>
     </n-grid-item>
   </n-grid>
@@ -169,6 +198,10 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.error-message {
+  color: #b00020;
+  margin: 0.5rem 0 0;
 }
 .result-table {
     font-family: Inconsolata, monospace;

@@ -4,7 +4,9 @@ import router from "../router";
 
 export const useFFCSStore = defineStore("ffcsStore", {
   state: () => ({
+    campaigns: [],
     ffcs_data: [],
+    getDataMsg: "",
   }),
 
   getters: {
@@ -21,49 +23,34 @@ export const useFFCSStore = defineStore("ffcsStore", {
   },
   actions: {
     async getCampaigns(user_account) {
-      console.log("userAccount is: " + user_account)
       try {
-        const response = await axiosWrapper.get_summary_ffcs_results(eaccount);
-        
-        // Update store data with merged structure
-        this.ffcs_data = response.data;
-        console.log("this.data in store is: " + this.ffcs_data);
-        this.ffcs_data.forEach(item => {
-          console.log(item);
-        });
-        return this.ffcs_data;
-
+        const response = await axiosWrapper.get_ffcs_campaigns(user_account);
+        this.campaigns = response.data;
+        this.getDataMsg = "";
+        return this.campaigns;
       } catch (error) {
-        console.log(error)
+        this.campaigns = [];
         this.getDataMsg = "There was an error making request: " + error;
-        console.log(this.getDataMsg)
-        if (error.response.status === 401) {
+        if (error.response?.status === 401) {
           router.push("/login");
-          console.log("Session expired. Please login again.");
         }
+        return this.campaigns;
       }
     },
     async getFFCSData(user_account, campaign_id) {
-      console.log("userAccount is: " + user_account + " campaignId is:" + campaign_id)
       try {
         const response = await axiosWrapper.get_summary_ffcs_results(user_account, campaign_id);
-        
-        // Update store data with merged structure
         this.ffcs_data = response.data;
-        console.log("this.ffcs_data in store is: " + this.ffcs_data);
-        this.ffcs_data.forEach(item => {
-          console.log(item);
-        });
+        this.getDataMsg = "";
         return this.ffcs_data;
 
       } catch (error) {
-        console.log(error)
+        this.ffcs_data = [];
         this.getDataMsg = "There was an error making request: " + error;
-        console.log(this.getDataMsg)
-        if (error.response.status === 401) {
+        if (error.response?.status === 401) {
           router.push("/login");
-          console.log("Session expired. Please login again.");
         }
+        return this.ffcs_data;
       }
     },
   },

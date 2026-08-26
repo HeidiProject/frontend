@@ -1,7 +1,10 @@
 <template>
     <n-select
       :options="options"
-      :default-value="options[0]['value']"
+      :value="modelValue"
+      :loading="loading"
+      :disabled="loading || options.length === 0"
+      placeholder="No campaigns available"
       :consistent-menu-width="false"
       @update:value="handleSelect"
     >
@@ -10,41 +13,33 @@
 
 <script setup>
 import { NSelect } from "naive-ui";
-import { ref } from "vue";
+import { computed } from "vue";
 
-const campaigns = [
-        "20230131_test",
-        "20231213_test",
-        "MK_test",
-	"EP_cs_01",
-	"EP_cs_02",
-        "batch1_test",
-        "new_ffcs_2",
-        "software_test",
-      ]
+const props = defineProps({
+  campaigns: {
+    type: Array,
+    default: () => [],
+  },
+  modelValue: {
+    type: String,
+    default: null,
+  },
+  loading: {
+    type: Boolean,
+    default: false,
+  },
+});
 
-
-function convertCampaignsToOptions() {
-  var stack = campaigns;
-  var stackLength = stack.length - 1;
-  var out = [];
-  for (var i = 0; i <= stackLength; i++) {
-    var label = stack[i];
-    var value = stack[i];
-    var tmp = { label: label, value: value };
-    out.push(tmp);
-  }
-  return out;
-}
-
-const options = convertCampaignsToOptions();
-
-const selected = ref([]);
+const options = computed(() =>
+  props.campaigns.map((campaign) => ({
+    label: campaign.display_name,
+    value: campaign.campaign_id,
+  }))
+);
 
 const emit = defineEmits(["selectedCampaign"]);
 
 function handleSelect(key) {
-selected.value = String(key);
-emit("selectedCampaign", String(key));
+  emit("selectedCampaign", String(key));
 }
 </script>  
